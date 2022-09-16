@@ -1,0 +1,5 @@
+database: interview_tg_bot
+user: postgres
+password: 12345
+host: localhost
+port: 5432
