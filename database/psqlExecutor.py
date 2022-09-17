@@ -11,7 +11,7 @@ db_properties = {'database': 'test_db_tg',
                     'port': '5432'}
 # Свойства базы данных берутся из файла "db_properties.txt"
 try:
-    with open('./db_properties.txt', 'r', encoding='utf-8') as properties:
+    with open('database/db_properties.txt', 'r', encoding='utf-8') as properties:
         content = properties.read()
 except FileNotFoundError:
     # Если файл с свойствами был не найден, то продолжить с значениями по умолчанию
@@ -41,17 +41,23 @@ def connect_db(sql_query_func):
     # Функция-декоратор. Осуществляет подключение к базе данных с последующим исполнением запроса из 
     # декорируемой функции
     global db_properties
-    con = psycopg2.connect(database=db_properties['database'], 
+    def do_sql_func(sql_query):
+        con = psycopg2.connect(database=db_properties['database'], 
                             user=db_properties['user'], 
                             password=db_properties['password'], 
                             host=db_properties['host'], 
                             port=db_properties['port'])
-    def do_sql_func(sql_query):
-        cur = con.cursor()  
+        cur = con.cursor() 
         cur.execute(sql_query_func(sql_query))
-        con.commit()  
-        con.close()
-        
+        try:
+            res = cur.fetchall()
+        except (Exception, psycopg2.Error) as error:
+            res = None
+        finally:
+            con.commit() 
+            con.close()
+            return res
+     
     return do_sql_func
 
 
@@ -66,7 +72,7 @@ def create_table(table_name):
     print('Запрос на создание таблицы сделан успешно. Проверьте базу данных.')
     return f'''CREATE TABLE {table_name}  
                 (id SERIAL PRIMARY KEY,
-                user_tg_id INT NOT NULL,
+                user_tg_id CHAR(150) NOT NULL,
                 answer1 CHAR(150) NOT NULL,
                 answer2 CHAR(150) NOT NULL,
                 answer21 CHAR(150),
@@ -80,12 +86,12 @@ def create_table(table_name):
 def insert_into(values: dict):
     assert len(values) == 10, 'Некорректно указаны аргументы SQL запроса'
     print('Запрос на создание записи отправлен успешно. Проверьте базу данных.')
-    return f"INSERT INTO {values['table_name']} (user_tg_id, answer1, answer2, answer21, answer3, answer4, answer41, answer5, completion_date) VALUES ('{values['tg_id']}', '{values['a1']}', '{values['a2']}', '{values['a21']}', '{values['a3']}', '{values['a4']}', '{values['a41']}', '{values['a5']}', '{values['date']}')"
+    return f"INSERT INTO {values['table_name']} (user_tg_id, answer1, answer2, answer21, answer3, answer4, answer41, answer5, completion_date) VALUES ('{values['tg_id']}', '{values['a1']}', '{values['a2']}', '{values['a21']}', '{values['a3']}', '{values['a4']}', '{values['a41']}', '{values['a5']}', '{values['date']}') RETURNING id;"
 
 @connect_db
 def search_user(values: dict):
     # Ищет пользователя по его ид
-    return f'SELECT * FROM {values["table_name"]} WHERE user_tg_id = {values["user_id"]}'
+    return f"SELECT * FROM {values['table_name']} WHERE user_tg_id = '{values['user_id']}'"
 # =====================================================
 
 
@@ -96,6 +102,14 @@ if __name__ == '__main__':
     args = parser.parse_args()
     if args.newtable:
         create_table(args.newtable)
+        with open('database/db_properties.txt', 'r', encoding='utf-8') as properties:
+            content = properties.read().split('\n')
+            content = [f'{x}\n' for x in content]
+        for i in range(len(content)):
+            if content[i].startswith('active_table'):
+                content[i] = f'active_table: {args.newtable}'
+                with open('database/db_properties.txt', 'w', encoding='utf-8') as properties:
+                    properties.writelines(content)
     else:
         print('''Используйте: "python psqlExecutor.py --tablename NAME" для создания таблицы.\n
         Остальные функции доступны при импорте.
