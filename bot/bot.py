@@ -1,5 +1,6 @@
-from . import bot
 import time
+
+from . import bot
 
 
 def run_bot():

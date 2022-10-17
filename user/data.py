@@ -11,5 +11,3 @@ class User:
 
     def __repr__(self):
         return f'{self.user_id}: {self.answers}'
-
-    
