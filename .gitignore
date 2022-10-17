@@ -1,0 +1,5 @@
+/venv/
+*.docx
+*.tmp
+**/__pycache__/
+**/db_properties.txt
