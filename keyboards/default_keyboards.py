@@ -5,7 +5,7 @@ start_keyboard = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)\
     .add(types.KeyboardButton('🟩 Пройти опрос 🟩'))
 
 question1_btns = [
-    types.KeyboardButton('Не интересует'), 
+    types.KeyboardButton('Не интересует'),
     types.KeyboardButton(
         (
             'Когда давали задачи на уроках – решал, '
