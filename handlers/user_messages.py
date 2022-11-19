@@ -35,11 +35,6 @@ def about_project(message):
 @bot.message_handler(content_types=['text'])
 def first_question(message):
     if message.text == '🟩 Пройти опрос 🟩':
-        return bot.send_message(
-            message.chat.id,
-            ('К сожалегию, опрос уже завершился, '
-                'а работа была зарегистрирована в конкурсе.')
-        )
         # Проверка на прохождение опроса ранее
         this_user_in_db = search_user(
             {
