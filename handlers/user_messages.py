@@ -27,6 +27,15 @@ def start_message(message):
     )
 
 
+@bot.message_handler(commands=['help'])
+def help_command(message):
+    bots_message = get_question('[HELP]')
+    return bot.send_message(
+        message.chat.id,
+        bots_message,
+    )
+
+
 @bot.message_handler(content_types=['text'])
 def first_question(message):
     if message.text == '🟩 Пройти опрос 🟩':
