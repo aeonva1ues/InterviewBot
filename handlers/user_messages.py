@@ -27,11 +27,6 @@ def start_message(message):
     )
 
 
-@bot.message_handler(commands=['about'])
-def about_project(message):
-    bot.send_message(message.chat.id, get_question('[ABOUT]'))
-
-
 @bot.message_handler(content_types=['text'])
 def first_question(message):
     if message.text == '🟩 Пройти опрос 🟩':
@@ -44,7 +39,9 @@ def first_question(message):
         if this_user_in_db:
             return bot.send_message(message.chat.id, (
                         'Похоже, вы уже прошли опрос. '
-                        'Повторное прохождение недоступно!')
+                        'Повторное прохождение недоступно!\n'
+                        'Чтобы узнать больше о проекте используйте /help'
+                    )
             )
         user = User(message.from_user.id)
         bots_message = get_question('[FIRST_QUESTION]')
