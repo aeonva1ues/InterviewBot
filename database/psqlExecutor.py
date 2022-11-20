@@ -72,7 +72,7 @@ def connect_db(sql_query_func):
 # =====================================================
 # Все доступные функции для работы с БД
 @connect_db
-def create_table(table_name):
+def create_table(table_name: str):
     # Структура таблицы заранее определена.
     # Намеренно нарушено первое правило нормализации.
     # Нет необходимости выносить ответы пользователя в отдельную таблицу,
@@ -116,7 +116,12 @@ def insert_into(values: dict):
 def search_user(values: dict):
     # Ищет пользователя по его ид
     return (f"SELECT * FROM {values['table_name']} "
-            "WHERE user_tg_id = '{values['user_id']}'")
+            f"WHERE user_tg_id = '{values['user_id']}'")
+
+
+@connect_db
+def count(table_name: str):
+    return f"SELECT count(*) FROM {table_name}"
 # =====================================================
 
 
