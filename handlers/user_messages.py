@@ -30,23 +30,26 @@ def start_message(message):
 @bot.message_handler(commands=['help'])
 def help_command(message):
     bots_message = get_question('[HELP]')
-    return bot.send_message(
+    msg = bot.send_message(
         message.chat.id,
         bots_message,
+        parse_mode='HTML',
+        disable_web_page_preview=True
     )
+    bot.pin_chat_message(chat_id=message.chat.id, message_id=msg.message_id)
 
 
 @bot.message_handler(commands=['terms'])
 def terms_command(message):
     file = open(r'media\Термины.txt', 'r', encoding='utf-8')
-    bot.send_message(message.chat.id, file)
+    bot.send_message(message.chat.id, file.read(), parse_mode='HTML')
     file.close()
 
 
 @bot.message_handler(commands=['links'])
 def links_command(message):
     file = open(r'media\Ссылки.txt', 'r', encoding='utf-8')
-    bot.send_message(message.chat.id, file)
+    bot.send_message(message.chat.id, file.read(), parse_mode='HTML')
     file.close()
 
 
@@ -56,38 +59,22 @@ def description_command(message):
     return bot.send_message(
         message.chat.id,
         bots_message,
+        parse_mode='HTML'
     )
-
-
-@bot.message_handler(commands=['interview'])
-def interview_command(message):
-    file = open(r'media\Приложение 1.docx', 'rb')
-    bot.send_message(message.chat.id, file)
-    file.close()
 
 
 @bot.message_handler(commands=['iresults'])
 def iresults_command(message):
-    db_notes_count = count(get_active_table_name())
-    bots_message = get_question('[IRESULTS]') % str(db_notes_count)
-    return bot.send_message(
+    db_notes_count = count(get_active_table_name())[0][0]
+    bots_message = get_question('[IRESULTS]') % db_notes_count
+    bot.send_message(
         message.chat.id,
         bots_message,
+        parse_mode='HTML'
     )
-
-
-@bot.message_handler(commands=['pytpr'])
-def pytpr_command(message):
-    file = open(r'media\Приложение 2.docx', 'rb')
-    bot.send_message(message.chat.id, file)
-    file.close()
-
-
-@bot.message_handler(commands=['theses'])
-def theses_command(message):
-    file = open(r'media\Тезисы.docx', 'rb')
-    bot.send_message(message.chat.id, file)
-    file.close()
+    img = open('media/ui.png', 'rb')
+    bot.send_photo(message.chat.id, img)
+    img.close()
 
 
 @bot.message_handler(content_types=['text'])
