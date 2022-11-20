@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from database.active_table import get_active_table_name
-from database.psqlExecutor import insert_into, search_user
+from database.psqlExecutor import insert_into, search_user, count
 from interview_questions.questions import get_question
 from keyboards.default_keyboards import (fifth_question_keyboard,
                                          first_question_keyboard,
@@ -34,6 +34,60 @@ def help_command(message):
         message.chat.id,
         bots_message,
     )
+
+
+@bot.message_handler(commands=['terms'])
+def terms_command(message):
+    file = open(r'media\Термины.txt', 'r', encoding='utf-8')
+    bot.send_message(message.chat.id, file)
+    file.close()
+
+
+@bot.message_handler(commands=['links'])
+def links_command(message):
+    file = open(r'media\Ссылки.txt', 'r', encoding='utf-8')
+    bot.send_message(message.chat.id, file)
+    file.close()
+
+
+@bot.message_handler(commands=['description'])
+def description_command(message):
+    bots_message = get_question('[DESCRIPTION]')
+    return bot.send_message(
+        message.chat.id,
+        bots_message,
+    )
+
+
+@bot.message_handler(commands=['interview'])
+def interview_command(message):
+    file = open(r'media\Приложение 1.docx', 'rb')
+    bot.send_message(message.chat.id, file)
+    file.close()
+
+
+@bot.message_handler(commands=['iresults'])
+def iresults_command(message):
+    db_notes_count = count(get_active_table_name())
+    bots_message = get_question('[IRESULTS]') % str(db_notes_count)
+    return bot.send_message(
+        message.chat.id,
+        bots_message,
+    )
+
+
+@bot.message_handler(commands=['pytpr'])
+def pytpr_command(message):
+    file = open(r'media\Приложение 2.docx', 'rb')
+    bot.send_message(message.chat.id, file)
+    file.close()
+
+
+@bot.message_handler(commands=['theses'])
+def theses_command(message):
+    file = open(r'media\Тезисы.docx', 'rb')
+    bot.send_message(message.chat.id, file)
+    file.close()
 
 
 @bot.message_handler(content_types=['text'])
