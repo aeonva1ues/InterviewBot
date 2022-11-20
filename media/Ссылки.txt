@@ -1,0 +1,23 @@
+**Список литературы проекта**
+```* - не встречается в тексте работы```
+`1.	Telegram API -` https://core.telegram.org/
+`2.	Eel -` (внешняя библиотека на Python для написания графического интерфейса по принципу веб-страницы (для отображения используется HTML)) https://github.com/python-eel/Eel
+`3.	Scratch -` (графический язык программирования) https://scratch.mit.edu/
+`4.	TIOBE Software -` (Нидерландская компания по разработке программного обеспечения, ведущая рейтинг популярности языков программирования) https://www.tiobe.com/tiobe-index/
+`5.	Python -` https://www.python.org/
+`6.	C++ -` https://learn.microsoft.com/ru-ru/cpp/cpp/?view=msvc-170
+`7.	Django -` (фреймворк на Python для создания Web-приложений) https://www.djangoproject.com/
+`8.	JSON -` https://ru.wikipedia.org/wiki/JSON
+`9.	API -` https://ru.wikipedia.org/wiki/API
+`10. GUI -` https://en.wikipedia.org/wiki/Graphical_user_interface
+`11. Библиотека -` https://en.wikipedia.org/wiki/Library_(computing)
+`12. База данных -` https://en.wikipedia.org/wiki/Database
+`13. HTML -` https://ru.wikipedia.org/wiki/HTML
+`14. PostgreSQL* -` https://www.postgresql.org/
+`15. Flask* -` https://flask.palletsprojects.com/en/2.2.x/
+`16. Веб* -` https://ru.wikipedia.org/wiki/%D0%92%D0%B5%D0%B1
+
+**Обратная связь**
+Telegram автора: https://t.me/aeonva1ues
+Github: https://github.com/aeonva1ues
+Группы Лицея в ВК: основная - https://vk.com/public214002434 , мероприятия - https://vk.com/public201013452
