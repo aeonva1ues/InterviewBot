@@ -41,9 +41,13 @@ def help_command(message):
 
 @bot.message_handler(commands=['terms'])
 def terms_command(message):
+    SEPARATOR = '=============================='
     file = open(r'media\Термины.txt', 'r', encoding='utf-8')
-    bot.send_message(message.chat.id, file.read(), parse_mode='HTML')
+    content = file.read()
     file.close()
+    parts = content.split(SEPARATOR)
+    for part in parts:
+        bot.send_message(message.chat.id, part, parse_mode='HTML')
 
 
 @bot.message_handler(commands=['links'])
