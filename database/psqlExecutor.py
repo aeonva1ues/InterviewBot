@@ -102,21 +102,29 @@ def insert_into(values: dict):
         'Запрос на создание записи отправлен успешно. Проверьте базу данных.'
         )
     return (
-        f"INSERT INTO {values['table_name']}"
+        "INSERT INTO {0}"
         "(user_tg_id, answer1, answer2, answer21, answer3, answer4, answer41, "
         "answer5, completion_date) "
-        f"VALUES ('{values['tg_id']}', '{values['a1']}', "
-        f"'{values['a2']}', '{values['a21']}', "
-        "'{values['a3']}', '{values['a4']}', "
-        f"'{values['a41']}', '{values['a5']}', '{values['date']}') "
-        "RETURNING id;")
+        "VALUES ('{1}', '{2}', "
+        "'{3}', '{4}', "
+        "'{5}', '{6}', "
+        "'{7}', '{8}', '{9}') "
+        "RETURNING id;").format(
+            values['table_name'], values['tg_id'],
+            values['a1'], values['a2'],
+            values['a21'], values['a3'],
+            values['a4'], values['a41'],
+            values['a5'], values['date']
+        )
 
 
 @connect_db
 def search_user(values: dict):
     # Ищет пользователя по его ид
     return (f"SELECT * FROM {values['table_name']} "
-            f"WHERE user_tg_id = '{values['user_id']}'")
+            "WHERE user_tg_id = '{0}'"
+            .format(values['user_id'])
+            )
 
 
 @connect_db
